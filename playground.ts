@@ -1,4 +1,5 @@
-import { ScrawlGraph, isScrawlChild, isScrawlPoint } from "./ScrawlGraph";
+// @ts-expect-error
+import { isScrawlChild, isScrawlPoint } from "./src/ScrawlGraph.ts";
 
 const graph: ScrawlGraph = {
   vertices: {
@@ -48,9 +49,11 @@ const graph: ScrawlGraph = {
 };
 
 console.log("\nVertices:");
+// @ts-expect-error
 Object.values(graph.vertices).forEach((vertex) => console.log(vertex));
 
 console.log("\nNodes:");
+// @ts-expect-error
 Object.values(graph.nodes).forEach((node) => console.log(node));
 
 const well = graph.nodes["g"];
@@ -60,6 +63,7 @@ if (well && isScrawlPoint(well)) {
   vertex && console.log(vertex);
 
   console.log("\nStuff in the well:");
+  // @ts-expect-error
   Object.values(graph.nodes)
     .filter((node) => isScrawlChild(node) && node.parent === "g")
     .forEach((child) => {

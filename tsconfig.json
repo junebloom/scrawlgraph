@@ -1,5 +1,10 @@
 {
+  "files": ["src/ScrawlGraph.ts"],
   "compilerOptions": {
-    "lib": ["ES2020", "DOM"]
+    "outDir": "dist",
+    "target": "ES6",
+    "strict": true,
+    "declaration": true,
+    "removeComments": true
   }
 }

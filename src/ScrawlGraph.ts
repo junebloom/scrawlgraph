@@ -53,7 +53,7 @@ export interface ScrawlShape extends ScrawlBaseNode {
 }
 
 // A union type used where any type of node is acceptable.
-type ScrawlNode = ScrawlChild | ScrawlPoint | ScrawlPath | ScrawlShape;
+export type ScrawlNode = ScrawlChild | ScrawlPoint | ScrawlPath | ScrawlShape;
 
 // Type guards
 export function isScrawlChild(node: ScrawlNode): node is ScrawlChild {
