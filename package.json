@@ -1,0 +1,7 @@
+{
+  "name": "scrawlgraph",
+  "description": "A spatial data format for representing complex information about (fictional) places.",
+  "version": "1.0.0",
+  "main": "ScrawlGraph.ts",
+  "license": "MIT"
+}
