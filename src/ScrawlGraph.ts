@@ -13,58 +13,32 @@ export interface ScrawlGraph {
   readonly links: { readonly [id: string]: ScrawlLink };
 }
 
-// Links
-
-// A link in the ScrawlGraph. Note that this base interface only exists to be
-// extended, and by itself is not a valid type for a link in a graph.
-export interface ScrawlBaseLink {
+// Represents the root node of a tree.
+interface ScrawlRootNode {
   // (The compiler can't catch mutations of mutable types on the user-provided
-  // `data` property of a link, but you should treat it as immutable.)
+  // `data` property, but you should treat it as immutable.)
   readonly data: any;
   readonly children?: ReadonlyArray<Id>;
 }
 
-// A child link. Any type of link can be a parent, but only a ScrawlChild can
-// be a child.
-export interface ScrawlChild extends ScrawlBaseLink {
-  readonly type: "child";
+// Represents a child in a tree.
+export interface ScrawlChild extends ScrawlRootNode {
   readonly parent: Id;
 }
 
-// A point link. Associates link data and children with a vertex on the map.
-export interface ScrawlPoint extends ScrawlBaseLink {
-  readonly type: "point";
-  readonly vertex: Id;
-}
-
-// A path link. Associates link data and children with a series of vertices.
-// A ScrawlPath represents an open "polyline".
-export interface ScrawlPath extends ScrawlBaseLink {
-  readonly type: "path";
-  readonly vertices: ReadonlyArray<Id>;
-}
-
-// A shape link. Associates link data and children with a series of vertices.
-// A ScrawlShape represents a closed polygon.
-export interface ScrawlShape extends ScrawlBaseLink {
-  readonly type: "shape";
+// Represents a feature composed of vertices in the graph.
+export interface ScrawlLink extends ScrawlRootNode {
   readonly vertices: ReadonlyArray<Id>;
   readonly contains?: ReadonlyArray<Id>;
 }
 
-// A union type used where any type of link is acceptable.
-export type ScrawlLink = ScrawlChild | ScrawlPoint | ScrawlPath | ScrawlShape;
+// A union type used where any type of node is acceptable.
+export type ScrawlNode = ScrawlChild | ScrawlLink;
 
 // Type guards
-export function isScrawlChild(link: ScrawlLink): link is ScrawlChild {
-  return link.type === "child";
+export function isScrawlChild(node: ScrawlNode): node is ScrawlChild {
+  return (node as ScrawlChild).parent !== undefined;
 }
-export function isScrawlPoint(link: ScrawlLink): link is ScrawlPoint {
-  return link.type === "point";
-}
-export function isScrawlPath(link: ScrawlLink): link is ScrawlPath {
-  return link.type === "path";
-}
-export function isScrawlShape(link: ScrawlLink): link is ScrawlShape {
-  return link.type === "shape";
+export function isScrawlLink(node: ScrawlNode): node is ScrawlLink {
+  return (node as ScrawlLink).vertices !== undefined;
 }
