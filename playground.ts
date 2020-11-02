@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 const graph = {
   vertices: {
     a: [0, 0],

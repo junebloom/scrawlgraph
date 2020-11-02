@@ -14,22 +14,21 @@ const graph = {
     e: [4, 4],
   },
   paths: {
+    // A village.
     f: {
-      // A village.
-      data: { name: "village" },
       vertices: ["a", "b", "c", "d", "a"],
+      name: "village",
     },
+    // A basket at the village center, with an apple in it.
     g: {
-      // A basket at the village center.
-      data: { name: "basket" },
       vertices: ["e"],
+      children: ["h"],
+      name: "basket",
     },
   },
-  children: {
+  nodes: {
     h: {
-      // An apple inside the basket.
-      data: { name: "apple" },
-      parent: "g",
+      name: "apple",
     },
   },
 };
@@ -47,7 +46,7 @@ Spatial information in the graph is modeled using **vertices** and **paths**. A 
 - A container for data.
 - The root node of a tree.
 
-These trees are the secondary data structures. The **children** in these trees are data containers who have no physical presence in the graph, but are hierarchically "inside" the parent.
+These trees are the secondary data structures. The child **nodes** in these trees are data containers who have no physical presence in the graph, but are semantically "inside" the parent.
 
 In this way, paths act as the bridge between the undirected graph (for spatial data), and the trees (for hierarchical data), unifying them into a ScrawlGraph.
 
@@ -61,7 +60,7 @@ A ScrawlGraph is an object with three properties:
 {
   "vertices": {},
   "paths": {},
-  "children": {}
+  "nodes": {}
 }
 ```
 
@@ -81,13 +80,14 @@ A vertex is a location in 2d space. It is represented by an ordered pair of nume
 
 ### Paths
 
-A path associates some data with a series of one or more vertices on the graph. A path is represented by an object with a `vertices` array property and a `data` property of any valid JSON type, usually an object.
+A path associates some data with a series of one or more vertices on the graph. A path is represented by an object with a `vertices` property which is a array of vertex identifiers (strings). Arbitrary data can be included as further properties of any valid JSON type.
 
 ```json
 {
   "d": {
-    "data": { "name": "Acute Town", "population": "you" },
-    "vertices": ["a"]
+    "vertices": ["a"],
+    "name": "Acute Town",
+    "population": "you"
   }
 }
 ```
@@ -105,8 +105,8 @@ Depending on the contents of its vertices array, a path can represent many kinds
   ```json
   {
     "e": {
-      "data": { "name": "Righteous River" },
-      "vertices": ["a", "c", "b"]
+      "vertices": ["a", "c", "b"],
+      "name": "Righteous River"
     }
   }
   ```
@@ -118,8 +118,8 @@ Depending on the contents of its vertices array, a path can represent many kinds
   ```json
   {
     "f": {
-      "data": { "name": "Tri-state" },
-      "vertices": ["a", "b", "c", "a"]
+      "vertices": ["a", "b", "c", "a"],
+      "name": "Tri-state"
     }
   }
   ```
@@ -131,25 +131,24 @@ Depending on the contents of its vertices array, a path can represent many kinds
   ```json
   {
     "g": {
-      "data": { "name": "Donut County" },
-      "vertices": ["a", "b", "c", "a", "x", "y", "z", "x"]
+      "vertices": ["a", "b", "c", "a", "x", "y", "z", "x"],
+      "name": "Donut County"
     }
   }
   ```
 
-### Child
+### Nodes
 
-A child is a data container nested inside of a path's tree. It has no associated vertices. Any path or child is a valid parent, though a child can't be its own parent.
+A node is a data container, not associated with any particular vertices, that can be used as tree children by other nodes and paths.
 
 ```json
 {
   "h": {
-    "data": { "name": "Triangle Man" },
-    "parent": "f"
+    "children": ["i"],
+    "name": "Triangle Man"
   },
   "i": {
-    "data": { "name": "Hatred" },
-    "parent": "h"
+    "name": "Hatred"
   }
 }
 ```
@@ -158,4 +157,6 @@ A child is a data container nested inside of a path's tree. It has no associated
 
 ## Why not GeoJSON or TopoJSON?
 
-# TypeScript Implementation
+# TypeScript Utilities
+
+## Immutability
