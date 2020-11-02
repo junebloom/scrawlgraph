@@ -1,7 +1,6 @@
-// @ts-expect-error
-import { isScrawlChild, isScrawlPoint } from "./src/ScrawlGraph.ts";
+// @ts-nocheck
 
-const graph: ScrawlGraph = {
+const graph = {
   vertices: {
     a: [0, 0],
     c: [8, 8],
@@ -9,64 +8,40 @@ const graph: ScrawlGraph = {
     d: [0, 8],
     e: [4, 4],
   },
-  nodes: {
+  paths: {
     f: {
-      type: "shape",
-      vertices: ["a", "b", "c", "d"],
-      data: {
-        name: "village",
-      },
+      // A village.
+      vertices: ["a", "b", "c", "d", "a"],
+      name: "village",
     },
     g: {
-      type: "point",
-      vertex: "e",
-      data: {
-        name: "well",
-      },
+      // A basket at the village center, with an apple in it.
+      vertices: ["e"],
+      children: ["h"],
+      name: "basket",
     },
+  },
+  nodes: {
     h: {
-      type: "child",
-      parent: "g",
-      data: {
-        name: "strange water",
-      },
-    },
-    i: {
-      type: "child",
-      parent: "g",
-      data: {
-        name: "a lost bucket",
-      },
-    },
-    j: {
-      type: "child",
-      parent: "i",
-      data: {
-        name: "secret treasure",
-      },
+      name: "apple",
     },
   },
 };
 
+// console.log(JSON.stringify(graph));
+
 console.log("\nVertices:");
-// @ts-expect-error
 Object.values(graph.vertices).forEach((vertex) => console.log(vertex));
 
+console.log("\nPaths:");
+Object.values(graph.paths).forEach((path) => console.log(path));
+
 console.log("\nNodes:");
-// @ts-expect-error
 Object.values(graph.nodes).forEach((node) => console.log(node));
 
-const well = graph.nodes["g"];
-if (well && isScrawlPoint(well)) {
-  console.log("\nLocation of the well:");
-  const vertex = graph.vertices[well.vertex];
-  vertex && console.log(vertex);
+const basket = graph.paths["g"];
+console.log(`\nLocation of the ${basket.name}:`);
+console.log(graph.vertices[basket.vertices[0]]);
 
-  console.log("\nStuff in the well:");
-  // @ts-expect-error
-  Object.values(graph.nodes)
-    .filter((node) => isScrawlChild(node) && node.parent === "g")
-    .forEach((child) => {
-      console.log(child.data.name);
-    });
-}
+console.log(`\nStuff in the ${basket.name}:`);
+basket.children.forEach((id) => console.log(graph.nodes[id]));
