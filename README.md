@@ -1,6 +1,6 @@
 <h1 style="text-align:center;">ScrawlGraph</h1>
 
-ScrawlGraph is a spatial data format for modeling complex and dynamic (fictional) places.
+ScrawlGraph is a spatial data format for modeling features of complex, dynamic (and possibly fictional) places.
 
 This is what a ScrawlGraph looks like, as an ECMAScript object:
 
@@ -13,24 +13,23 @@ const graph = {
     d: [0, 8],
     e: [4, 4],
   },
-  links: {
-    // A village.
+  paths: {
     f: {
-      type: "shape",
-      vertices: ["a", "b", "c", "d"],
+      // A village.
       data: { name: "village" },
+      vertices: ["a", "b", "c", "d", "a"],
     },
-    // A basket in the middle of the village.
     g: {
-      type: "point",
-      vertex: "e",
+      // A basket in the middle of the village.
       data: { name: "basket" },
+      vertices: ["e"],
     },
-    // An apple inside the basket.
+  },
+  children: {
     h: {
-      type: "child",
-      parent: "g",
+      // An apple inside the basket.
       data: { name: "apple" },
+      parent: "g",
     },
   },
 };
@@ -40,87 +39,66 @@ ScrawlGraphs are fully JSON-compatible, so they can be serialized or deserialize
 
 # Concepts
 
-A ScrawlGraph models spatial information using _vertices_ and _links_. A vertex represents a 2d point, and holds no data other than its position.
+A ScrawlGraph is a synthesis of two kinds of data structures. The primary structure is an undirected graph of spatial data.
 
-Links represent features of the graph. They can connect zero-or-more vertices into complex structures. Links are not edges as you may be familiar with from traditional graphs. A link is more abstract, and can describe:
+Spatial information in the graph is modeled using **vertices** and **paths**. A vertex represents a 2d point and holds no data other than its position, while a path is three things:
 
-- Zero vertices
-- One vertex
-- One edge (two vertices)
-- Multiple edges (three or more vertices)
+- A sequence of one or more vertices.
+- A container for data.
+- The root node of a tree.
 
-Additionally, every link with at least one vertex is the root node for a tree whose children are zero-vertex links.
+These trees are the secondary data structures. The **children** in these trees are data containers who have no physical presence in the graph, but are hierarchically "inside" the parent.
+
+In this way, paths act as the bridge between the undirected graph (for spatial data), and the trees (for hierarchical data), unifying them into a ScrawlGraph.
 
 - TODO: Explanatory graphic
 
-# Data Types
+# The Format
 
-Types are described here using TypeScript and JSON, but ScrawlGraph is language-independent.
+ScrawlGraph defines three kinds of objects:
 
-## Id
+- vertices,
+- paths,
+- and children
 
-Vertices and links are referenced by a unique string id.
+All of which are indexed using unique strings as identifiers.
 
-```ts
-type Id = string;
-```
+### Vertex
 
-## Vertex
+A vertex is a location in 2d space. It is represented by an ordered pair of numeric components. There is no further meaning to the vertex, and the application is free to choose whatever coordinate system and units are appropriate.
 
-A vertex is a tuple with two numeric components. The vertex has no defined semantics other than representing a 2d location. Applications are free to choose a suitable coordinate system.
-
-```ts
-type Vertex = [number, number];
-```
-
-## Link
-
-There are four types of links. All links are have the following properties:
-
-```ts
-interface ScrawlBaseLink {
-  data: any;
-  children?: Id[];
+```json
+{
+  "foo": [0, 0],
+  "bar": [0, 2],
+  "baz": [1, 1]
 }
 ```
 
-- Child links have no vertices, and can only exist as the child of another link.
+### Path
 
-```ts
-interface ScrawlChild extends ScrawlBaseLink {
-  type: "child";
-  parent: Id;
+Paths associate some data with a series of one or more vertices on the graph.
+
+```json
+{
+  ""
 }
 ```
 
-- Point links are associated with a single vertex.
+Depending on the contents of its vertices array, a path can represent many kinds of features:
 
-```ts
-interface ScrawlPoint extends ScrawlBaseLink {
-  type: "point";
-  vertex: Id;
-}
-```
+- #### Points
 
-- Path links are associated with two or more vertices. They represent a "polyline".
+  Paths with a single vertex are point paths. They are useful attaching data to a single location.
 
-```ts
-interface ScrawlPath extends ScrawlBaseLink {
-  type: "path";
-  vertices: Id[];
-}
-```
+- #### Polylines
 
-- Shape links are associated with two or more vertices and represent a polygon.
+  Open paths with multiple vertices are polyline paths. A path is open if its first and last vertices are not the same _(or more generally, if no vertex appears in the path more than once)_. They are useful for describing roads, rivers, etc.
 
-```ts
-interface ScrawlShape extends ScrawlBaseLink {
-  type: "shape";
-  vertices: Id[];
-  contains?: Id[];
-}
-```
+- #### Polygons
 
-"Multipolygons" are not yet supported by ScrawlGraph, but are planned.
+  Closed paths with three or more vertices are polygon paths. A path is closed if its first vertex is the same as its last. They are useful for describing borders, shapes, buildings, large objects etc.
 
-## Graph
+- #### Multipolygons
+
+  Appending a second closed series of vertices to the end of the vertices array after a first closed series creates a multipolygon path. All of the vertices of the second polygon must lie inside the first. The inner polygon is to be treated as a "hole" or "cutout" in the outer polygon.
