@@ -2,36 +2,28 @@
 
 ScrawlGraph is a spatial data format for modeling complex, dynamic (and possibly fictional) places.
 
-This is what a ScrawlGraph looks like, as an ECMAScript object:
+This is what a ScrawlGraph looks like, as a JSON object:
 
-```js
-const graph = {
-  vertices: {
-    a: [0, 0],
-    c: [8, 8],
-    b: [8, 0],
-    d: [0, 8],
-    e: [4, 4],
+```jsonc
+{
+  "vertices": {
+    "a": [0, 0],
+    "c": [8, 8],
+    "b": [8, 0],
+    "d": [0, 8],
+    "e": [4, 4]
   },
-  paths: {
-    // A village.
-    f: {
-      vertices: ["a", "b", "c", "d", "a"],
-      name: "village",
-    },
-    // A basket at the village center, with an apple in it.
-    g: {
-      vertices: ["e"],
-      children: ["h"],
-      name: "basket",
-    },
+  "paths": {
+    // A little village.
+    "f": { "vertices": ["a", "b", "c", "d", "a"], "name": "village" },
+    // A basket in the village center, with an apple in it.
+    "g": { "vertices": ["e"], "children": ["h"], "name": "Basket" }
   },
-  nodes: {
-    h: {
-      name: "apple",
-    },
-  },
-};
+  "nodes": {
+    // The apple.
+    "h": { "name": "Apple" }
+  }
+}
 ```
 
 ScrawlGraphs are fully JSON-compatible, so they can be serialized or deserialized with existing tools and used in any environment.
