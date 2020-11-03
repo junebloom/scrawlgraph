@@ -1,4 +1,4 @@
-<h1 align="center">ScrawlGraph</h1>
+# ScrawlGraph
 
 ScrawlGraph is a spatial data format for modeling complex, dynamic (and possibly fictional) places.
 
