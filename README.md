@@ -203,7 +203,7 @@ My intention with ScrawlGraph is to enable creative modeling of detailed fiction
 
 The primary use-case for [GeoJSON](https://tools.ietf.org/html/rfc7946) and [TopoJSON](https://github.com/topojson/topojson-specification) is to represent mostly-static geo-spatial data. I can't hold a candle to them in that domain, they are very good at what they do. But they do have some limitations when it comes to modeling dynamic content.
 
-### Vertex References
+#### Vertex References
 
 The main problem is in how they treat vertices. Both have the limitation that vertices are represented _by value_, and can't be _referenced_. For example, imagine a path that represents a road, and one of the vertices of the path represents a city that the road passes through. Now imagine a user want to adjust the position of the city, keeping the city connected with the road.
 
@@ -211,11 +211,11 @@ With GeoJSON or TopoJSON, the city and the road would need to have their positio
 
 By making all vertices references, ScrawlGraph solves this problem.
 
-### Analysis
+#### Analysis
 
 This has the secondary effect of making it possible to analyze the graph more richly, for example, we can traverse the edges in a path to determine every city that a particular road runs through, or to find neighboring cities. Without additional indexing, these kinds of operations may be somewhat expensive, but the point is that the information necessary to create such indexes exists in the first place.
 
-### Simplicity
+#### Simplicity
 
 ScrawlGraph also has the advantage of being very simple. It has a relatively flat structure for the format itself, while still allowing for deep relationships between elements. It's well-suited for having elements of the graph extracted and individually stored in a database or transferred over a network.
 
