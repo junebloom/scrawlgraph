@@ -1,6 +1,6 @@
 <h1 style="text-align:center;">ScrawlGraph</h1>
 
-ScrawlGraph is a spatial data format for modeling features of complex, dynamic (and possibly fictional) places.
+ScrawlGraph is a spatial data format for modeling complex, dynamic (and possibly fictional) places.
 
 This is what a ScrawlGraph looks like, as an ECMAScript object:
 
