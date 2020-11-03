@@ -1,4 +1,4 @@
-<h1 style="text-align:center;">ScrawlGraph</h1>
+<h1 align="center">ScrawlGraph</h1>
 
 ScrawlGraph is a spatial data format for modeling complex, dynamic (and possibly fictional) places.
 
@@ -35,6 +35,8 @@ const graph = {
 ```
 
 ScrawlGraphs are fully JSON-compatible, so they can be serialized or deserialized with existing tools and used in any environment.
+
+## Contents
 
 - [Concepts](#concepts)
 - [Specification](#specification)
