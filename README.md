@@ -43,7 +43,8 @@ ScrawlGraphs are fully JSON-compatible, so they can be serialized or deserialize
   - [nodes](#3-nodes)
 - [Use Cases](#use-cases)
   - [Why not GeoJSON or TopoJSON?](#why-not-geojson-or-topojson)
-- [Typescript Utilities](#typescript-utilities)
+- [Typescript Definitions](#typescript-definitions)
+  - [Immutability](#immutability)
 
 # Concepts
 
@@ -218,6 +219,26 @@ This has the secondary effect of making it possible to analyze the graph more ri
 
 ScrawlGraph also has the advantage of being very simple. It has a relatively flat structure for the format itself, while still allowing for deep relationships between elements. It's well-suited for having elements of the graph extracted and individually stored in a database or transferred over a network.
 
-# TypeScript Utilities
+# TypeScript Definitions
+
+This repository also provides an npm package with TypeScript type definitions for working with ScrawlGraphs.
+
+You can include the definitions in your project with `yarn` or `npm`.
+
+```shell
+yarn add scrawlgraph
+```
+
+```shell
+npm i -S scrawlgraph
+```
+
+Look in [`ScrawlGraph.d.ts`](/ScrawlGraph.d.ts) for the exact type definitions.
 
 ## Immutability
+
+The definitions attempt to enforce immutability by making all properties readonly. The exception is if you provide mutable types as data fields in a path or node. You should still treat such values as immutable.
+
+The reason for this is to enforce safe design patterns, and to ensure that ScrawlGraph can be used seamlessly in places that expect immutable state, such as [React]() or [Automerge]().
+
+Mutable type definitions may be provided later, but immutability is a first-class consideration driving the design of ScrawlGraph.

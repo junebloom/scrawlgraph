@@ -2,10 +2,10 @@
 // All types are immutable.
 
 // A unique identifier for a vertex, node, or path.
-export type Id = string;
+export declare type Id = string;
 
 // A 2d position, with no further semantics.
-export type Vertex = readonly [number, number];
+export declare type Vertex = readonly [number, number];
 
 // A collection of vertices, paths, and nodes, associated as a graph.
 export interface ScrawlGraph {

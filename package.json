@@ -1,9 +1,9 @@
 {
   "name": "scrawlgraph",
-  "description": "A spatial data format for representing complex information about (fictional) places.",
+  "description": "A spatial data format for modeling features of complex, dynamic (and possibly fictional) places.",
   "version": "1.0.0",
-  "main": "./dist/ScrawlGraph.js",
-  "types": "./dist/ScrawlGraph.d.ts",
+  "main": "./ScrawlGraph.d.ts",
+  "types": "./ScrawlGraph.d.ts",
   "license": "MIT",
   "devDependencies": {
     "typescript": "^4.0.5"
