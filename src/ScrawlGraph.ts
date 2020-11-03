@@ -25,6 +25,4 @@ export interface ScrawlNode {
 // Represents a feature composed of vertices in the graph.
 export interface ScrawlPath extends ScrawlNode {
   readonly vertices: ReadonlyArray<Id>;
-  readonly within?: ReadonlyArray<Id>;
-  readonly contains?: ReadonlyArray<Id>;
 }
