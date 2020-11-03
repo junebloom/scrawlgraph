@@ -42,9 +42,7 @@ ScrawlGraphs are fully JSON-compatible, so they can be serialized or deserialize
 
 # Concepts
 
-A ScrawlGraph is a synthesis of two kinds of data structures. The primary structure is an undirected graph of spatial data.
-
-Spatial information in the graph is modeled using `vertices` and `paths`. A vertex represents a 2d point and holds no data other than its position, while a path is three things:
+A ScrawlGraph is a synthesis of two kinds of data structures. The primary structure is an undirected graph of spatial data. Spatial information in this graph is modeled using `vertices` and `paths`. A vertex represents a 2d point and holds no data other than its position, while a path is three things:
 
 - A sequence of one or more `vertices`.
 - A container for data.
