@@ -157,7 +157,11 @@ Depending on the contents of its `vertices` array, a path can represent many kin
 
 ### 3. `nodes`
 
-A node is a data container, not associated with any particular vertices, that can be used as children by other nodes and paths. Nodes are part of a _tree_, which always has a _path_ as its root. The other elements in the trees are always _nodes_. A node can have children of its own, to an arbitrary depth.
+A node is a data container that can be used as a child by other nodes and paths.
+
+Nodes are part of a _tree_, which always has a _path_ as its root. The other elements in the trees are always _nodes_. A node can have children of its own, to an arbitrary depth.
+
+Nodes not associated with any particular vertices, except indirectly through their root path.
 
 ```json
 {
