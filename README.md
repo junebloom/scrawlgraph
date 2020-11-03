@@ -36,6 +36,15 @@ const graph = {
 
 ScrawlGraphs are fully JSON-compatible, so they can be serialized or deserialized with existing tools and used in any environment.
 
+- [Concepts](#concepts)
+- [Specification](#specification)
+  - [vertices](#1-vertices)
+  - [paths](#2-paths)
+  - [nodes](#3-nodes)
+- [Use Cases](#use-cases)
+  - [Why not GeoJSON or TopoJSON?](#why-not-geojson-or-topojson)
+- [Typescript Utilities](#typescript-utilities)
+
 # Concepts
 
 A ScrawlGraph is a synthesis of two kinds of data structures. The primary structure is an undirected graph of spatial data.
@@ -52,7 +61,7 @@ In this way, paths act as the bridge between the undirected graph (for spatial d
 
 - TODO: Explanatory graphic
 
-# The Format
+# Specification
 
 A ScrawlGraph is an object with three properties:
 
@@ -66,7 +75,7 @@ A ScrawlGraph is an object with three properties:
 
 These properties are objects whose _keys_ are **unique string identifiers** and whose _values_ depend on their type:
 
-### `vertices`
+### 1. `vertices`
 
 A vertex is a location represented as a tuple of numeric components. It can be an ordered pair, or triple, etc. There is no further meaning to the vertex, and the application is free to choose whatever coordinate system is appropriate.
 
@@ -78,7 +87,7 @@ A vertex is a location represented as a tuple of numeric components. It can be a
 }
 ```
 
-### `paths`
+### 2. `paths`
 
 A path associates some data with a series of one or more vertices on the graph. A path is an object with a `vertices` property and an _optional_ `children` property.
 
@@ -108,11 +117,11 @@ Arbitrary data can be included as further properties of any valid JSON type.
 
 Depending on the contents of its `vertices` array, a path can represent many kinds of features. Also note that multiple paths can utilize the same underlying vertices. The valid kinds of paths are as follows:
 
-- #### Points
+- #### 2.1 Points
 
   Paths with a single vertex, like the one above, are point paths. They are useful for attaching data to a single location.
 
-- #### Polylines
+- #### 2.2 Polylines
 
   Open paths with multiple vertices are polyline paths. A path is open if its first and last vertices are not the same _(or more generally, if no vertex appears in the path more than once)_. They are useful for describing roads, rivers, etc.
 
@@ -125,7 +134,7 @@ Depending on the contents of its `vertices` array, a path can represent many kin
   }
   ```
 
-- #### Polygons
+- #### 2.3 Polygons
 
   Closed paths with three or more vertices are polygon paths. A path is closed if its first vertex is the same as its last. They are useful for describing borders, shapes, buildings, large objects etc.
 
@@ -138,7 +147,7 @@ Depending on the contents of its `vertices` array, a path can represent many kin
   }
   ```
 
-- #### Multipolygons
+- #### 2.4 Multipolygons
 
   Appending a second closed series of vertices to the end of the vertices array after a first closed series creates a multipolygon path. All of the vertices of the second polygon must lie inside the first. The inner polygon is to be treated as a "hole" or "cutout" in the outer polygon.
 
@@ -151,7 +160,7 @@ Depending on the contents of its `vertices` array, a path can represent many kin
   }
   ```
 
-### `nodes`
+### 3. `nodes`
 
 A node is a data container, not associated with any particular vertices, that can be used as children by other nodes and paths. Nodes are part of a _tree_, which always has a _path_ as its root. The other elements in the trees are always _nodes_. A node can have children of its own, to an arbitrary depth.
 
@@ -185,7 +194,7 @@ And it doesn't end there; ScrawlGraphs are intended to be dynamic. You could mod
 
 ### Further Thoughts
 
-That much detail is probably excessive, but it illustrates that it's possible to use as much or as little detail as desired to model complex worlds, not just maps.
+That much detail is probably excessive, but it illustrates that it's possible to use as much or as little detail as desired to model complex _worlds_, not just maps.
 
 My intention with ScrawlGraph is to enable creative modeling of detailed fictional worlds in an interactive way, for building applications with a focus on creative world-building or other similar uses.
 
@@ -203,7 +212,7 @@ By making all vertices references, ScrawlGraph solves this problem.
 
 ### Analysis
 
-This has the secondary effect of making it possible to analyze the graph more richly, for example, we can traverse the edges in a path to determine every city that a particular road runs through, or to find neighboring cities. Without additional indexing, these kinds of operations could be somewhat expensive, but the point is that the information necessary to create such indexes exists in the graph.
+This has the secondary effect of making it possible to analyze the graph more richly, for example, we can traverse the edges in a path to determine every city that a particular road runs through, or to find neighboring cities. Without additional indexing, these kinds of operations may be somewhat expensive, but the point is that the information necessary to create such indexes exists in the first place.
 
 ### Simplicity
 
