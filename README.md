@@ -239,6 +239,6 @@ Look in [`ScrawlGraph.d.ts`](/ScrawlGraph.d.ts) for the exact type definitions.
 
 The definitions attempt to enforce immutability by making all properties readonly. The exception is if you provide mutable types as data fields in a path or node. You should still treat such values as immutable.
 
-The reason for this is to enforce safe design patterns, and to ensure that ScrawlGraph can be used seamlessly in places that expect immutable state, such as [React]() or [Automerge]().
+The reason for this is to enforce safe design patterns, and to ensure that ScrawlGraphs can be used seamlessly in places that expect immutable state, such as [React](https://github.com/facebook/react) or [Automerge](https://github.com/automerge/automerge).
 
 Mutable type definitions may be provided later, but immutability is a first-class consideration driving the design of ScrawlGraph.
