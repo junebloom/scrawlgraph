@@ -32,9 +32,9 @@ ScrawlGraphs are fully JSON-compatible, so they can be serialized or deserialize
 
 - [Concepts](#concepts)
 - [Specification](#specification)
-  - [vertices](#1-vertices)
-  - [paths](#2-paths)
-  - [nodes](#3-nodes)
+  - [`vertices`](#1-vertices)
+  - [`paths`](#2-paths)
+  - [`nodes`](#3-nodes)
 - [Use Cases](#use-cases)
   - [Why not GeoJSON or TopoJSON?](#why-not-geojson-or-topojson)
 - [Typescript Definitions](#typescript-definitions)
