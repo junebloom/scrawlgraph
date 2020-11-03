@@ -106,7 +106,7 @@ A path associates some data with a series of one or more vertices on the graph. 
 
 Arbitrary data can be included as further properties of any valid JSON type.
 
-```json
+```jsonc
 {
   "d": {
     // ...
